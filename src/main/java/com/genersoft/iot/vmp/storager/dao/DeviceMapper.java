@@ -13,10 +13,10 @@ import java.util.List;
 @Repository
 public interface DeviceMapper {
 
-    @Select("SELECT * FROM device WHERE deviceId = #{deviceId}")
+    @Select("SELECT * FROM t_device WHERE deviceId = #{deviceId}")
     Device getDeviceByDeviceId(String deviceId);
 
-    @Insert("INSERT INTO device (" +
+    @Insert("INSERT INTO t_device (" +
                 "deviceId, " +
                 "name, " +
                 "manufacturer, " +
@@ -58,7 +58,7 @@ public interface DeviceMapper {
     int add(Device device);
 
     @Update(value = {" <script>" +
-                "UPDATE device " +
+                "UPDATE t_device " +
                 "SET updateTime='${updateTime}'" +
                 "<if test=\"name != null\">, name='${name}'</if>" +
                 "<if test=\"manufacturer != null\">, manufacturer='${manufacturer}'</if>" +
@@ -79,12 +79,12 @@ public interface DeviceMapper {
             " </script>"})
     int update(Device device);
 
-    @Select("SELECT *, (SELECT count(0) FROM device_channel WHERE deviceId=de.deviceId) as channelCount  FROM device de")
+    @Select("SELECT *, (SELECT count(0) FROM t_device_channel WHERE deviceId=de.deviceId) as channelCount  FROM t_device de")
     List<Device> getDevices();
 
-    @Delete("DELETE FROM device WHERE deviceId=#{deviceId}")
+    @Delete("DELETE FROM t_device WHERE deviceId=#{deviceId}")
     int del(String deviceId);
 
-    @Update("UPDATE device SET online=0")
+    @Update("UPDATE t_device SET online=0")
     int outlineForAll();
 }

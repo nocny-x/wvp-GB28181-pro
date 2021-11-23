@@ -15,6 +15,7 @@ import com.genersoft.iot.vmp.storager.IVideoManagerStorager;
 import com.genersoft.iot.vmp.vmanager.gb28181.play.bean.PlayResult;
 import gov.nist.javax.sip.address.AddressImpl;
 import gov.nist.javax.sip.address.SipUri;
+import org.apache.commons.lang3.BooleanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -109,7 +110,7 @@ public class InviteRequestProcessor extends SIPRequestProcessorParent implements
 				MediaServerItem mediaServerItem = null;
 				// 不是通道可能是直播流
 				if (channel != null && gbStream == null ) {
-					if (channel.getStatus() == 0) {
+					if (BooleanUtils.isNotTrue(channel.getStatus())) {
 						logger.info("通道离线，返回400");
 						responseAck(evt, Response.BAD_REQUEST, "channel [" + channel.getChannelId() + "] offline");
 						return;

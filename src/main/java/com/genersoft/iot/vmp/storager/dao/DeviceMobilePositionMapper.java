@@ -10,12 +10,12 @@ import org.apache.ibatis.annotations.*;
 //@Repository
 public interface DeviceMobilePositionMapper {
 
-    @Insert("INSERT INTO device_mobile_position (deviceId,channelId, deviceName, time, longitude, latitude, altitude, speed, direction, reportSource, geodeticSystem, cnLng, cnLat) " +
+    @Insert("INSERT INTO t_device_mobile_position (deviceId,channelId, deviceName, time, longitude, latitude, altitude, speed, direction, reportSource, geodeticSystem, cnLng, cnLat) " +
             "VALUES ('${deviceId}','${channelId}', '${deviceName}', '${time}', ${longitude}, ${latitude}, ${altitude}, ${speed}, ${direction}, '${reportSource}', '${geodeticSystem}', '${cnLng}', '${cnLat}')")
     int insertNewPosition(MobilePosition mobilePosition);
 
     @Select(value = {" <script>" +
-    "SELECT * FROM device_mobile_position" +
+    "SELECT * FROM t_device_mobile_position" +
     " WHERE deviceId = #{deviceId} " +
     "<if test=\"startTime != null\"> AND time&gt;=#{startTime}</if>" +
     "<if test=\"endTime != null\"> AND time&lt;=#{endTime}</if>" +
@@ -23,11 +23,11 @@ public interface DeviceMobilePositionMapper {
     " </script>"})
     List<MobilePosition> queryPositionByDeviceIdAndTime(String deviceId, String startTime, String endTime);
 
-    @Select("SELECT * FROM device_mobile_position WHERE deviceId = #{deviceId}" +
+    @Select("SELECT * FROM t_device_mobile_position WHERE deviceId = #{deviceId}" +
             " ORDER BY time DESC LIMIT 1")
     MobilePosition queryLatestPositionByDevice(String deviceId);
 
-    @Delete("DELETE FROM device_mobile_position WHERE deviceId = #{deviceId}")
+    @Delete("DELETE FROM t_device_mobile_position WHERE deviceId = #{deviceId}")
     int clearMobilePositionsByDeviceId(String deviceId);
 
 }

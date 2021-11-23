@@ -17,13 +17,13 @@ import java.util.List;
 @Repository
 public interface LogMapper {
 
-    @Insert("insert into log ( name, type, uri, address, result, timing, username, createTime) " +
+    @Insert("insert into t_log ( name, type, uri, address, result, timing, username, createTime) " +
             "values ('${name}', '${type}', '${uri}', '${address}', '${result}', ${timing}, '${username}', '${createTime}')")
     int add(LogDto logDto);
 
 
     @Select(value = {"<script>" +
-            " SELECT * FROM log " +
+            " SELECT * FROM t_log " +
             " WHERE 1=1 " +
             " <if test=\"query != null\"> AND (name LIKE '%${query}%')</if> " +
             " <if test=\"type != null\" >  AND type = '${type}'</if>" +
@@ -34,6 +34,6 @@ public interface LogMapper {
     List<LogDto> query(String query, String type, String startTime, String endTime);
 
 
-    @Delete("DELETE FROM log")
+    @Delete("DELETE FROM t_log")
     int clear();
 }

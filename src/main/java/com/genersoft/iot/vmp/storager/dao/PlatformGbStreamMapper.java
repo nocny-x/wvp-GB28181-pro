@@ -12,16 +12,16 @@ import java.util.List;
 @Repository
 public interface PlatformGbStreamMapper {
 
-    @Insert("INSERT INTO platform_gb_stream (app, stream, platformId) VALUES" +
+    @Insert("INSERT INTO t_platform_gb_stream (app, stream, platformId) VALUES" +
             "('${app}', '${stream}', '${platformId}')")
     int add(PlatformGbStream platformGbStream);
 
-    @Delete("DELETE FROM platform_gb_stream WHERE app=#{app} AND stream=#{stream}")
+    @Delete("DELETE FROM t_platform_gb_stream WHERE app=#{app} AND stream=#{stream}")
     int delByAppAndStream(String app, String stream);
 
-    @Delete("DELETE FROM platform_gb_stream WHERE platformId=#{platformId}")
+    @Delete("DELETE FROM t_platform_gb_stream WHERE platformId=#{platformId}")
     int delByPlatformId(String platformId);
 
-    @Select("SELECT * FROM platform_gb_stream WHERE app=#{app} AND stream=#{stream}")
+    @Select("SELECT * FROM t_platform_gb_stream WHERE app=#{app} AND stream=#{stream}")
     List<StreamProxyItem> selectByAppAndStream(String app, String stream);
 }

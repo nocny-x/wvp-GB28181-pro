@@ -13,7 +13,7 @@ import java.util.List;
 @Repository
 public interface ParentPlatformMapper {
 
-    @Insert("INSERT INTO parent_platform (enable, name, serverGBId, serverGBDomain, serverIP, serverPort, deviceGBId, deviceIp,  " +
+    @Insert("INSERT INTO t_parent_platform (enable, name, serverGBId, serverGBDomain, serverIP, serverPort, deviceGBId, deviceIp,  " +
             "            devicePort, username, password, expires, keepTimeout, transport, characterSet, ptz, rtcp, " +
             "            status) " +
             "            VALUES (${enable}, '${name}', '${serverGBId}', '${serverGBDomain}', '${serverIP}', ${serverPort}, '${deviceGBId}', '${deviceIp}', " +
@@ -21,7 +21,7 @@ public interface ParentPlatformMapper {
             "            ${status})")
     int addParentPlatform(ParentPlatform parentPlatform);
 
-    @Update("UPDATE parent_platform " +
+    @Update("UPDATE t_parent_platform " +
             "SET enable=#{enable}, " +
             "name=#{name}," +
             "deviceGBId=#{deviceGBId}," +
@@ -43,31 +43,31 @@ public interface ParentPlatformMapper {
             "WHERE id=#{id}")
     int updateParentPlatform(ParentPlatform parentPlatform);
 
-    @Delete("DELETE FROM parent_platform WHERE serverGBId=#{serverGBId}")
+    @Delete("DELETE FROM t_parent_platform WHERE serverGBId=#{serverGBId}")
     int delParentPlatform(ParentPlatform parentPlatform);
 
     @Select("SELECT *, ((SELECT count(0)\n" +
-            "              FROM platform_gb_channel pc\n" +
+            "              FROM t_platform_gb_channel pc\n" +
             "              WHERE pc.platformId = pp.serverGBId)\n" +
             "              +\n" +
             "              (SELECT count(0)\n" +
-            "              FROM platform_gb_stream pgs\n" +
+            "              FROM t_platform_gb_stream pgs\n" +
             "              WHERE pgs.platformId = pp.serverGBId)) as channelCount\n" +
-            "FROM parent_platform pp ")
+            "FROM t_parent_platform pp ")
     List<ParentPlatform> getParentPlatformList();
 
-    @Select("SELECT * FROM parent_platform WHERE enable=#{enable}")
+    @Select("SELECT * FROM t_parent_platform WHERE enable=#{enable}")
     List<ParentPlatform> getEnableParentPlatformList(boolean enable);
 
-    @Select("SELECT * FROM parent_platform WHERE serverGBId=#{platformGbId}")
+    @Select("SELECT * FROM t_parent_platform WHERE serverGBId=#{platformGbId}")
     ParentPlatform getParentPlatByServerGBId(String platformGbId);
 
-    @Select("SELECT * FROM parent_platform WHERE id=#{id}")
+    @Select("SELECT * FROM t_parent_platform WHERE id=#{id}")
     ParentPlatform getParentPlatById(int id);
 
-    @Update("UPDATE parent_platform SET status=false" )
+    @Update("UPDATE t_parent_platform SET status=false" )
     int outlineForAllParentPlatform();
 
-    @Update("UPDATE parent_platform SET status=#{online} WHERE serverGBId=#{platformGbID}" )
+    @Update("UPDATE t_parent_platform SET status=#{online} WHERE serverGBId=#{platformGbID}" )
     int updateParentPlatformStatus(String platformGbID, boolean online);
 }

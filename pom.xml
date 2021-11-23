@@ -88,19 +88,24 @@
 			<version>${jedis-version}</version>
 		</dependency>
 
-		<!-- druid数据库连接池 -->
 		<dependency>
-			<groupId>com.alibaba</groupId>
-			<artifactId>druid</artifactId>
-			<version>1.2.3</version>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
 		</dependency>
 
+		<!-- druid数据库连接池 -->
+<!--		<dependency>-->
+<!--			<groupId>com.alibaba</groupId>-->
+<!--			<artifactId>druid</artifactId>-->
+<!--			<version>1.2.3</version>-->
+<!--		</dependency>-->
+
 		<!-- mysql数据库 -->
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.22</version>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>mysql</groupId>-->
+<!--			<artifactId>mysql-connector-java</artifactId>-->
+<!--			<version>8.0.22</version>-->
+<!--		</dependency>-->
 
 		<!-- 添加sqlite-jdbc数据库驱动 -->
 		<dependency>
@@ -220,7 +225,7 @@
 			<artifactId>onvif-java</artifactId>
 			<version>1.0.2</version>
 			<scope>system</scope>
-			<systemPath>${project.basedir}/libs/onvif-java-1.0.2.jar</systemPath>
+			<systemPath>${pom.basedir}/libs/onvif-java-1.0.2.jar</systemPath>
 		</dependency>
 
 		<dependency>

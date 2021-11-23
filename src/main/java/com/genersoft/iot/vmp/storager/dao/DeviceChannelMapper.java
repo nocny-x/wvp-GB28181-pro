@@ -14,7 +14,7 @@ import java.util.List;
 @Repository
 public interface DeviceChannelMapper {
 
-    @Insert("INSERT INTO device_channel (channelId, deviceId, name, manufacture, model, owner, civilCode, block, " +
+    @Insert("INSERT INTO t_device_channel (channelId, deviceId, name, manufacture, model, owner, civilCode, block, " +
             "address, parental, parentId, safetyWay, registerWay, certNum, certifiable, errCode, secrecy, " +
             "ipAddress, port, password, PTZType, status, streamId, longitude, latitude, createTime, updateTime) " +
             "VALUES ('${channelId}', '${deviceId}', '${name}', '${manufacture}', '${model}', '${owner}', '${civilCode}', '${block}'," +
@@ -23,7 +23,7 @@ public interface DeviceChannelMapper {
     int add(DeviceChannel channel);
 
     @Update(value = {" <script>" +
-            "UPDATE device_channel " +
+            "UPDATE t_device_channel " +
             "SET updateTime='${updateTime}'" +
             "<if test=\"name != null\">, name='${name}'</if>" +
             "<if test=\"manufacture != null\">, manufacture='${manufacture}'</if>" +
@@ -55,12 +55,12 @@ public interface DeviceChannelMapper {
 
     @Select(value = {" <script>" +
             "SELECT * FROM ( "+
-            " SELECT * , (SELECT count(0) FROM device_channel WHERE parentId=dc.channelId) as subCount FROM device_channel dc " +
+            " SELECT * , (SELECT count(0) FROM t_device_channel WHERE parentId=dc.channelId) as subCount FROM t_device_channel dc " +
             " WHERE dc.deviceId=#{deviceId} " +
             " <if test=\"query != null\"> AND (dc.channelId LIKE '%${query}%' OR dc.name LIKE '%${query}%' OR dc.name LIKE '%${query}%')</if> " +
             " <if test=\"parentChannelId != null\"> AND dc.parentId=#{parentChannelId} </if> " +
-            " <if test=\"online == true\" > AND dc.status=1</if>" +
-            " <if test=\"online == false\" > AND dc.status=0</if>) dcr" +
+            " <if test=\"online == true\" > AND dc.status=true</if>" +
+            " <if test=\"online == false\" > AND dc.status=false</if>) dcr" +
             " WHERE 1=1 " +
             " <if test=\"hasSubChannel == true\" >  AND subCount >0</if>" +
             " <if test=\"hasSubChannel == false\" >  AND subCount=0</if>" +
@@ -68,33 +68,33 @@ public interface DeviceChannelMapper {
             " </script>"})
     List<DeviceChannel> queryChannelsByDeviceId(String deviceId, String parentChannelId, String query, Boolean hasSubChannel, Boolean online);
 
-    @Select("SELECT * FROM device_channel WHERE deviceId=#{deviceId} AND channelId=#{channelId}")
+    @Select("SELECT * FROM t_device_channel WHERE deviceId=#{deviceId} AND channelId=#{channelId}")
     DeviceChannel queryChannel(String deviceId, String channelId);
 
-    @Delete("DELETE FROM device_channel WHERE deviceId=#{deviceId}")
+    @Delete("DELETE FROM t_device_channel WHERE deviceId=#{deviceId}")
     int cleanChannelsByDeviceId(String deviceId);
 
-    @Delete("DELETE FROM device_channel WHERE deviceId=#{deviceId} AND channelId=#{channelId}")
+    @Delete("DELETE FROM t_device_channel WHERE deviceId=#{deviceId} AND channelId=#{channelId}")
     int del(String deviceId, String channelId);
 
-    @Update(value = {"UPDATE device_channel SET streamId=null WHERE deviceId=#{deviceId} AND channelId=#{channelId}"})
+    @Update(value = {"UPDATE t_device_channel SET streamId=null WHERE deviceId=#{deviceId} AND channelId=#{channelId}"})
     void stopPlay(String deviceId, String channelId);
 
-    @Update(value = {"UPDATE device_channel SET streamId=#{streamId} WHERE deviceId=#{deviceId} AND channelId=#{channelId}"})
+    @Update(value = {"UPDATE t_device_channel SET streamId=#{streamId} WHERE deviceId=#{deviceId} AND channelId=#{channelId}"})
     void startPlay(String deviceId, String channelId, String streamId);
 
 
     @Select(value = {" <script>" +
             "SELECT * FROM ( "+
                 " SELECT dc.channelId, dc.deviceId, dc.name, de.manufacturer, de.hostAddress, " +
-                "(SELECT count(0) FROM device_channel WHERE parentId=dc.channelId) as subCount, " +
-                "(SELECT pc.platformId FROM platform_gb_channel pc WHERE pc.deviceId=dc.deviceId AND pc.channelId = dc.channelId ) as platformId " +
-                "FROM device_channel dc " +
-                "LEFT JOIN device de ON dc.deviceId = de.deviceId " +
+                "(SELECT count(0) FROM t_device_channel WHERE parentId=dc.channelId) as subCount, " +
+                "(SELECT pc.platformId FROM t_platform_gb_channel pc WHERE pc.deviceId=dc.deviceId AND pc.channelId = dc.channelId ) as platformId " +
+                "FROM t_device_channel dc " +
+                "LEFT JOIN t_device de ON dc.deviceId = de.deviceId " +
                 " WHERE 1=1 " +
                 " <if test=\"query != null\"> AND (dc.channelId LIKE '%${query}%' OR dc.name LIKE '%${query}%' OR dc.name LIKE '%${query}%')</if> " +
-                " <if test=\"online == true\" > AND dc.status=1</if> " +
-                " <if test=\"online == false\" > AND dc.status=0</if> " +
+                " <if test=\"online == true\" > AND dc.status=true</if> " +
+                " <if test=\"online == false\" > AND dc.status=false</if> " +
             ") dcr" +
             " WHERE 1=1 " +
             " <if test=\"hasSubChannel!= null and hasSubChannel == true\" >  AND subCount >0</if> " +
@@ -103,15 +103,14 @@ public interface DeviceChannelMapper {
             " <if test=\"platformId != null and inPlatform == false \" >  AND (platformId != '${platformId}' OR platformId is NULL )  </if> " +
             " ORDER BY deviceId, channelId ASC" +
             " </script>"})
-
     List<ChannelReduce> queryChannelListInAll(String query, Boolean online, Boolean hasSubChannel, String platformId, Boolean inPlatform);
 
-    @Select("SELECT * FROM device_channel WHERE channelId=#{channelId}")
+    @Select("SELECT * FROM t_device_channel WHERE channelId=#{channelId}")
     List<DeviceChannel> queryChannelByChannelId( String channelId);
 
-    @Update(value = {"UPDATE device_channel SET status=0 WHERE deviceId=#{deviceId} AND channelId=#{channelId}"})
+    @Update(value = {"UPDATE t_device_channel SET status=false WHERE deviceId=#{deviceId} AND channelId=#{channelId}"})
     void offline(String deviceId,  String channelId);
 
-    @Update(value = {"UPDATE device_channel SET status=1 WHERE deviceId=#{deviceId} AND channelId=#{channelId}"})
+    @Update(value = {"UPDATE t_device_channel SET status=true WHERE deviceId=#{deviceId} AND channelId=#{channelId}"})
     void online(String deviceId,  String channelId);
 }

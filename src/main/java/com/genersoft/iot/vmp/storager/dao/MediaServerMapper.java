@@ -14,7 +14,7 @@ import java.util.List;
 @Repository
 public interface MediaServerMapper {
 
-    @Insert("INSERT INTO media_server (" +
+    @Insert("INSERT INTO t_media_server (" +
             "id, " +
             "ip, " +
             "hookIp, " +
@@ -64,7 +64,7 @@ public interface MediaServerMapper {
     int add(MediaServerItem mediaServerItem);
 
     @Update(value = {" <script>" +
-            "UPDATE media_server " +
+            "UPDATE t_media_server " +
             "SET updateTime='${updateTime}'" +
             "<if test=\"ip != null\">, ip='${ip}'</if>" +
             "<if test=\"hookIp != null\">, hookIp='${hookIp}'</if>" +
@@ -88,22 +88,22 @@ public interface MediaServerMapper {
             " </script>"})
     int update(MediaServerItem mediaServerItem);
 
-    @Select("SELECT * FROM media_server WHERE id='${id}'")
+    @Select("SELECT * FROM t_media_server WHERE id='${id}'")
     MediaServerItem queryOne(String id);
 
-    @Select("SELECT * FROM media_server")
+    @Select("SELECT * FROM t_media_server")
     List<MediaServerItem> queryAll();
 
-    @Select("DELETE FROM media_server WHERE id='${id}'")
+    @Select("DELETE FROM t_media_server WHERE id='${id}'")
     void delOne(String id);
 
-    @Select("DELETE FROM media_server WHERE ip='${host}' and httpPort=${port}")
+    @Select("DELETE FROM t_media_server WHERE ip='${host}' and httpPort=${port}")
     void delOneByIPAndPort(String host, int port);
 
-    @Select("DELETE FROM media_server WHERE defaultServer=1;")
+    @Select("DELETE FROM t_media_server WHERE defaultServer=true")
     void delDefault();
 
-    @Select("SELECT * FROM media_server WHERE ip='${host}' and httpPort=${port}")
+    @Select("SELECT * FROM t_media_server WHERE ip='${host}' and httpPort=${port}")
     MediaServerItem queryOneByHostAndPort(String host, int port);
 
     @Select("SELECT * FROM media_server WHERE defaultServer=1")

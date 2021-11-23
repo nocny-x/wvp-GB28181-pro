@@ -19,13 +19,13 @@ public interface PlatformChannelMapper {
      * 查询列表里已经关联的
      */
     @Select("<script> "+
-            "SELECT deviceAndChannelId FROM platform_gb_channel WHERE platformId='${platformId}' AND deviceAndChannelId in" +
+            "SELECT deviceAndChannelId FROM t_platform_gb_channel WHERE platformId='${platformId}' AND deviceAndChannelId in" +
             "<foreach collection='deviceAndChannelIds' open='(' item='id_' separator=',' close=')'> '${id_}'</foreach> ORDER BY deviceAndChannelId ASC" +
             "</script>")
     List<String> findChannelRelatedPlatform(String platformId, List<String> deviceAndChannelIds);
 
     @Insert("<script> "+
-            "INSERT INTO platform_gb_channel (channelId, deviceId, platformId, deviceAndChannelId) VALUES" +
+            "INSERT INTO t_platform_gb_channel (channelId, deviceId, platformId, deviceAndChannelId) VALUES" +
             "<foreach collection='channelReducesToAdd'  item='item' separator=','>" +
             " ('${item.channelId}','${item.deviceId}', '${platformId}', '${item.deviceId}_${item.channelId}' )" +
             "</foreach>" +
@@ -34,26 +34,26 @@ public interface PlatformChannelMapper {
 
 
     @Delete("<script> "+
-            "DELETE FROM platform_gb_channel WHERE platformId='${platformId}' AND deviceAndChannelId in" +
+            "DELETE FROM t_platform_gb_channel WHERE platformId='${platformId}' AND deviceAndChannelId in" +
             "<foreach collection='channelReducesToDel'  item='item'  open='(' separator=',' close=')' > '${item.deviceId}_${item.channelId}'</foreach>" +
             "</script>")
     int delChannelForGB(String platformId, List<ChannelReduce> channelReducesToDel);
 
     @Delete("<script> "+
-            "DELETE FROM platform_gb_channel WHERE deviceId='${deviceId}' " +
+            "DELETE FROM t_platform_gb_channel WHERE deviceId='${deviceId}' " +
             "</script>")
     int delChannelForDeviceId(String deviceId);
 
     @Delete("<script> "+
-            "DELETE FROM platform_gb_channel WHERE platformId='${platformId}'"  +
+            "DELETE FROM t_platform_gb_channel WHERE platformId='${platformId}'"  +
             "</script>")
     int cleanChannelForGB(String platformId);
 
 
-    @Select("SELECT * FROM device_channel WHERE deviceId = (SELECT deviceId FROM platform_gb_channel WHERE " +
+    @Select("SELECT * FROM t_device_channel WHERE deviceId = (SELECT deviceId FROM t_platform_gb_channel WHERE " +
             "platformId='${platformId}' AND channelId='${channelId}' ) AND channelId='${channelId}'")
     DeviceChannel queryChannelInParentPlatform(String platformId, String channelId);
 
-    @Select("SELECT * FROM device WHERE deviceId = (SELECT deviceId FROM platform_gb_channel WHERE platformId='${platformId}' AND channelId='${channelId}')")
+    @Select("SELECT * FROM t_device WHERE deviceId = (SELECT deviceId FROM t_platform_gb_channel WHERE platformId='${platformId}' AND channelId='${channelId}')")
     Device queryVideoDeviceByPlatformIdAndChannelId(String platformId, String channelId);
 }

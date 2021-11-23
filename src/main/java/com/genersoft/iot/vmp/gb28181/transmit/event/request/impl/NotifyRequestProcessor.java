@@ -323,10 +323,10 @@ public class NotifyRequestProcessor extends SIPRequestProcessorParent implements
 		deviceChannel.setChannelId(channelId);
 		// ONLINE OFFLINE HIKVISION DS-7716N-E4 NVR的兼容性处理
 		if (status.equals("ON") || status.equals("On") || status.equals("ONLINE")) {
-			deviceChannel.setStatus(1);
+			deviceChannel.setStatus(true);
 		}
 		if (status.equals("OFF") || status.equals("Off") || status.equals("OFFLINE")) {
-			deviceChannel.setStatus(0);
+			deviceChannel.setStatus(false);
 		}
 
 		deviceChannel.setManufacture(XmlUtil.getText(itemDevice, "Manufacturer"));

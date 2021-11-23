@@ -622,7 +622,7 @@ public class MessageRequestProcessor1 extends SIPRequestProcessorParent implemen
 							deviceChannel.setLatitude(gbStream.getLatitude());
 							deviceChannel.setDeviceId(parentPlatform.getDeviceGBId());
 							deviceChannel.setManufacture("wvp-pro");
-							deviceChannel.setStatus(gbStream.isStatus()?1:0);
+							deviceChannel.setStatus(gbStream.isStatus());
 //							deviceChannel.setParentId(parentPlatform.getDeviceGBId());
 							deviceChannel.setRegisterWay(1);
 							deviceChannel.setCivilCode(config.getDomain());
@@ -670,10 +670,10 @@ public class MessageRequestProcessor1 extends SIPRequestProcessorParent implemen
 						deviceChannel.setChannelId(channelDeviceId);
 						// ONLINE OFFLINE  HIKVISION DS-7716N-E4 NVR的兼容性处理
 						if (status.equals("ON") || status.equals("On") || status.equals("ONLINE")) {
-							deviceChannel.setStatus(1);
+							deviceChannel.setStatus(true);
 						}
 						if (status.equals("OFF") || status.equals("Off") || status.equals("OFFLINE")) {
-							deviceChannel.setStatus(0);
+							deviceChannel.setStatus(false);
 						}
 
 						deviceChannel.setManufacture(getText(itemDevice, "Manufacturer"));

@@ -10,13 +10,13 @@ import java.util.List;
 @Repository
 public interface StreamProxyMapper {
 
-    @Insert("INSERT INTO stream_proxy (type, app, stream,mediaServerId, url, src_url, dst_url, " +
+    @Insert("INSERT INTO t_stream_proxy (type, app, stream,mediaServerId, url, src_url, dst_url, " +
             "timeout_ms, ffmpeg_cmd_key, rtp_type, enable_hls, enable_mp4, enable, createTime) VALUES" +
             "('${type}','${app}', '${stream}', '${mediaServerId}','${url}', '${src_url}', '${dst_url}', " +
             "'${timeout_ms}', '${ffmpeg_cmd_key}', '${rtp_type}', ${enable_hls}, ${enable_mp4}, ${enable}, '${createTime}' )")
     int add(StreamProxyItem streamProxyDto);
 
-    @Update("UPDATE stream_proxy " +
+    @Update("UPDATE t_stream_proxy " +
             "SET type=#{type}, " +
             "app=#{app}," +
             "stream=#{stream}," +
@@ -33,20 +33,20 @@ public interface StreamProxyMapper {
             "WHERE app=#{app} AND stream=#{stream}")
     int update(StreamProxyItem streamProxyDto);
 
-    @Delete("DELETE FROM stream_proxy WHERE app=#{app} AND stream=#{stream}")
+    @Delete("DELETE FROM t_stream_proxy WHERE app=#{app} AND stream=#{stream}")
     int del(String app, String stream);
 
-    @Select("SELECT st.*, pgs.gbId, pgs.name, pgs.longitude, pgs.latitude FROM stream_proxy st LEFT JOIN gb_stream pgs on st.app = pgs.app AND st.stream = pgs.stream order by st.createTime desc")
+    @Select("SELECT st.*, pgs.gbId, pgs.name, pgs.longitude, pgs.latitude FROM t_stream_proxy st LEFT JOIN t_gb_stream pgs on st.app = pgs.app AND st.stream = pgs.stream order by st.createTime desc")
     List<StreamProxyItem> selectAll();
 
-    @Select("SELECT st.*, pgs.gbId, pgs.name, pgs.longitude, pgs.latitude FROM stream_proxy st LEFT JOIN gb_stream pgs on st.app = pgs.app AND st.stream = pgs.stream WHERE st.enable=${enable} order by st.createTime desc")
+    @Select("SELECT st.*, pgs.gbId, pgs.name, pgs.longitude, pgs.latitude FROM t_stream_proxy st LEFT JOIN t_gb_stream pgs on st.app = pgs.app AND st.stream = pgs.stream WHERE st.enable=${enable} order by st.createTime desc")
     List<StreamProxyItem> selectForEnable(boolean enable);
 
-    @Select("SELECT st.*, pgs.gbId, pgs.name, pgs.longitude, pgs.latitude FROM stream_proxy st LEFT JOIN gb_stream pgs on st.app = pgs.app AND st.stream = pgs.stream WHERE st.app=#{app} AND st.stream=#{stream} order by st.createTime desc")
+    @Select("SELECT st.*, pgs.gbId, pgs.name, pgs.longitude, pgs.latitude FROM t_stream_proxy st LEFT JOIN t_gb_stream pgs on st.app = pgs.app AND st.stream = pgs.stream WHERE st.app=#{app} AND st.stream=#{stream} order by st.createTime desc")
     StreamProxyItem selectOne(String app, String stream);
 
-    @Select("SELECT st.*, pgs.gbId, pgs.name, pgs.longitude, pgs.latitude FROM stream_proxy st " +
-            "LEFT JOIN gb_stream pgs on st.app = pgs.app AND st.stream = pgs.stream " +
+    @Select("SELECT st.*, pgs.gbId, pgs.name, pgs.longitude, pgs.latitude FROM t_stream_proxy st " +
+            "LEFT JOIN t_gb_stream pgs on st.app = pgs.app AND st.stream = pgs.stream " +
             "WHERE st.enable=${enable} and st.mediaServerId = '${id}' order by st.createTime desc")
     List<StreamProxyItem> selectForEnableInMediaServer(String id, boolean enable);
 }

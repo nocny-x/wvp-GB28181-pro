@@ -11,14 +11,14 @@ import java.util.List;
 @Repository
 public interface GbStreamMapper {
 
-    @Insert("INSERT INTO gb_stream (app, stream, gbId, name, " +
+    @Insert("INSERT INTO t_gb_stream (app, stream, gbId, name, " +
             "longitude, latitude, streamType, mediaServerId, status) VALUES" +
             "('${app}', '${stream}', '${gbId}', '${name}', " +
             "'${longitude}', '${latitude}', '${streamType}', " +
             "'${mediaServerId}', ${status})")
     int add(GbStream gbStream);
 
-    @Update("UPDATE gb_stream " +
+    @Update("UPDATE t_gb_stream " +
             "SET app=#{app}," +
             "stream=#{stream}," +
             "gbId=#{gbId}," +
@@ -31,30 +31,30 @@ public interface GbStreamMapper {
             "WHERE app=#{app} AND stream=#{stream} AND gbId=#{gbId}")
     int update(GbStream gbStream);
 
-    @Delete("DELETE FROM gb_stream WHERE app=#{app} AND stream=#{stream}")
+    @Delete("DELETE FROM t_gb_stream WHERE app=#{app} AND stream=#{stream}")
     int del(String app, String stream);
 
-    @Select("SELECT gs.*, pgs.platformId FROM gb_stream gs LEFT JOIN  platform_gb_stream pgs ON gs.app = pgs.app AND gs.stream = pgs.stream")
+    @Select("SELECT gs.*, pgs.platformId FROM t_gb_stream gs LEFT JOIN  t_platform_gb_stream pgs ON gs.app = pgs.app AND gs.stream = pgs.stream")
     List<GbStream> selectAll();
 
-    @Select("SELECT * FROM gb_stream WHERE app=#{app} AND stream=#{stream}")
+    @Select("SELECT * FROM t_gb_stream WHERE app=#{app} AND stream=#{stream}")
     StreamProxyItem selectOne(String app, String stream);
 
-    @Select("SELECT gs.*, pgs.platformId FROM gb_stream gs " +
-            "LEFT JOIN platform_gb_stream pgs ON gs.app = pgs.app AND gs.stream = pgs.stream " +
+    @Select("SELECT gs.*, pgs.platformId FROM t_gb_stream gs " +
+            "LEFT JOIN t_platform_gb_stream pgs ON gs.app = pgs.app AND gs.stream = pgs.stream " +
             "WHERE gs.gbId = '${gbId}' AND pgs.platformId = '${platformId}'")
     GbStream queryStreamInPlatform(String platformId, String gbId);
 
     @Select("SELECT gs.*, pgs.platformId FROM gb_stream gs " +
-            "LEFT JOIN platform_gb_stream pgs ON gs.app = pgs.app AND gs.stream = pgs.stream " +
+            "LEFT JOIN t_platform_gb_stream pgs ON gs.app = pgs.app AND gs.stream = pgs.stream " +
             "WHERE pgs.platformId = '${platformId}'")
     List<GbStream> queryGbStreamListInPlatform(String platformId);
 
-    @Update("UPDATE gb_stream " +
+    @Update("UPDATE t_gb_stream " +
             "SET status=${status} " +
             "WHERE app=#{app} AND stream=#{stream}")
     void setStatus(String app, String stream, boolean status);
 
-    @Select("SELECT gs.*, pgs.platformId FROM gb_stream gs LEFT JOIN  platform_gb_stream pgs ON gs.app = pgs.app AND gs.stream = pgs.stream WHERE mediaServerId=#{mediaServerId} ")
+    @Select("SELECT gs.*, pgs.platformId FROM t_gb_stream gs LEFT JOIN t_platform_gb_stream pgs ON gs.app = pgs.app AND gs.stream = pgs.stream WHERE mediaServerId=#{mediaServerId} ")
     List<GbStream> selectAllByMediaServerId(String mediaServerId);
 }

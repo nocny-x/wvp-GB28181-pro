@@ -138,7 +138,7 @@ public class DeviceChannel {
 	 * <Status>OFF</Status>
 	 * 遇到过NVR下的IPC下发信令可以推流， 但是 Status 响应 OFF
 	 */
-	private int status;
+	private boolean status;
 
 	/**
 	 * 经度
@@ -366,11 +366,11 @@ public class DeviceChannel {
 		this.PTZTypeText = PTZTypeText;
 	}
 
-	public int getStatus() {
+	public boolean getStatus() {
 		return status;
 	}
 
-	public void setStatus(int status) {
+	public void setStatus(boolean status) {
 		this.status = status;
 	}
 

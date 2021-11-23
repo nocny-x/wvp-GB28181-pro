@@ -7,6 +7,7 @@ import com.genersoft.iot.vmp.gb28181.event.SipSubscribe;
 import com.genersoft.iot.vmp.gb28181.transmit.cmd.ISIPCommanderForPlatform;
 import com.genersoft.iot.vmp.gb28181.transmit.cmd.SIPRequestHeaderPlarformProvider;
 import com.genersoft.iot.vmp.storager.IRedisCatchStorage;
+import org.apache.commons.lang3.BooleanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -221,7 +222,7 @@ public class SIPCommanderFroPlatform implements ISIPCommanderForPlatform {
                 catalogXml.append("<ParentID>" + channel.getParentId() + "</ParentID>\r\n"); // TODO 当前不能添加分组， 所以暂时没有父节点
                 catalogXml.append("<Secrecy>" + channel.getSecrecy() + "</Secrecy>\r\n");
                 catalogXml.append("<RegisterWay>" + channel.getRegisterWay() + "</RegisterWay>\r\n");
-                catalogXml.append("<Status>" + (channel.getStatus() == 0?"OFF":"ON") + "</Status>\r\n");
+                catalogXml.append("<Status>" + (BooleanUtils.isNotTrue(channel.getStatus()) ?"OFF":"ON") + "</Status>\r\n");
                 catalogXml.append("<Info></Info>\r\n");
             }
 

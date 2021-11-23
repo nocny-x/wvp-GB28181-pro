@@ -11,12 +11,12 @@ import java.util.List;
 @Repository
 public interface RoleMapper {
 
-    @Insert("INSERT INTO role (name, authority, createTime, updateTime) VALUES" +
+    @Insert("INSERT INTO t_role (name, authority, createTime, updateTime) VALUES" +
             "('${name}', '${authority}', '${createTime}', '${updateTime}')")
     int add(Role role);
 
     @Update(value = {" <script>" +
-            "UPDATE role " +
+            "UPDATE t_role " +
             "SET updateTime='${updateTime}' " +
             "<if test=\"name != null\">, name='${name}'</if>" +
             "<if test=\"authority != null\">, authority='${authority}'</if>" +
@@ -24,12 +24,12 @@ public interface RoleMapper {
             " </script>"})
     int update(Role role);
 
-    @Delete("DELETE FROM role WHERE  id != 1 and id=#{id}")
+    @Delete("DELETE FROM t_role WHERE  id != 1 and id=#{id}")
     int delete(int id);
 
-    @Select("select * FROM role WHERE id=#{id}")
+    @Select("select * FROM t_role WHERE id=#{id}")
     Role selectById(int id);
 
-    @Select("select * FROM role")
+    @Select("select * FROM t_role")
     List<Role> selectAll();
 }
