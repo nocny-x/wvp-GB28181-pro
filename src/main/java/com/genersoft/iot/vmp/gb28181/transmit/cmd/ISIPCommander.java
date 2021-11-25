@@ -1,5 +1,6 @@
 package com.genersoft.iot.vmp.gb28181.transmit.cmd;
 
+import com.genersoft.iot.vmp.common.StreamInfo;
 import com.genersoft.iot.vmp.gb28181.bean.Device;
 import com.genersoft.iot.vmp.gb28181.event.SipSubscribe;
 import com.genersoft.iot.vmp.media.zlm.ZLMHttpHookSubscribe;
@@ -122,6 +123,26 @@ public interface ISIPCommander {
 	void streamByeCmd(String deviceId, String channelId);
 
 	/**
+	 * 回放暂停
+	 */
+	void playPauseCmd(Device device, StreamInfo streamInfo);
+
+	/**
+	 * 回放恢复
+	 */
+	void playResumeCmd(Device device, StreamInfo streamInfo);
+
+	/**
+	 * 回放拖动播放
+	 */
+	void playSeekCmd(Device device, StreamInfo streamInfo, long seekTime);
+
+	/**
+	 * 回放倍速播放
+	 */
+	void playSpeedCmd(Device device, StreamInfo streamInfo, Double speed);
+
+	/**
 	 * 语音广播
 	 * 
 	 * @param device  视频设备
@@ -236,7 +257,7 @@ public interface ISIPCommander {
 	 * @param startTime 开始时间,格式要求：yyyy-MM-dd HH:mm:ss
 	 * @param endTime 结束时间,格式要求：yyyy-MM-dd HH:mm:ss
 	 */
-	boolean recordInfoQuery(Device device, String channelId, String startTime, String endTime);
+	boolean recordInfoQuery(Device device, String channelId, String startTime, String endTime, SipSubscribe.Event errorEvent);
 	
 	/**
 	 * 查询报警信息

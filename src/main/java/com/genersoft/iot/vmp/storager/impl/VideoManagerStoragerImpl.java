@@ -605,8 +605,8 @@ public class VideoManagerStoragerImpl implements IVideoManagerStorager {
 	}
 
 	@Override
-	public void removeMedia(String app, String stream) {
-		streamPushMapper.del(app, stream);
+	public int removeMedia(String app, String stream) {
+		return streamPushMapper.del(app, stream);
 	}
 
 	@Override
@@ -615,8 +615,8 @@ public class VideoManagerStoragerImpl implements IVideoManagerStorager {
 	}
 
 	@Override
-	public void mediaOutline(String app, String streamId) {
-		gbStreamMapper.setStatus(app, streamId, false);
+	public int mediaOutline(String app, String streamId) {
+		return gbStreamMapper.setStatus(app, streamId, false);
 	}
 
 	@Override
@@ -650,5 +650,10 @@ public class VideoManagerStoragerImpl implements IVideoManagerStorager {
 			result = deviceMapper.getDeviceByDeviceId(channelList.get(0).getDeviceId());
 		}
 		return result;
+	}
+
+	@Override
+	public StreamProxyItem getStreamProxyByAppAndStream(String app, String streamId) {
+		return streamProxyMapper.selectOne(app, streamId);
 	}
 }
