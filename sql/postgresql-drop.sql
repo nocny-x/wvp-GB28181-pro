@@ -1,0 +1,14 @@
+drop table if exists t_device;
+drop table if exists t_device_channel;
+drop table if exists t_device_alarm;
+drop table if exists t_log;
+drop table if exists t_device_mobile_position;
+drop table if exists t_gb_stream;
+drop table if exists t_media_server;
+drop table if exists t_parent_platform;
+drop table if exists t_platform_gb_channel;
+drop table if exists t_platform_gb_stream;
+drop table if exists t_stream_proxy;
+drop table if exists t_stream_push;
+drop table if exists t_user;
+drop table if exists t_role;
