@@ -143,8 +143,6 @@ create table t_media_server
         unique (ip, httpPort)
 );
 
-drop table if exists t_parent_platform;
-
 create table t_parent_platform
 (
     id             bigserial,
@@ -201,6 +199,7 @@ create table t_stream_proxy
     enable_hls     boolean      null,
     enable_mp4     boolean      null,
     enable         boolean      not null,
+    enable_remove_none_reader    boolean not null,
     createTime     varchar(50)  not null,
     primary key (app, stream)
 );
@@ -238,4 +237,3 @@ create table t_role (
         updateTime  varchar(50)  not null
 );
 insert into t_role (id, name, authority, createTime, updateTime) values ('1', 'admin', '0', now(), now());
-
