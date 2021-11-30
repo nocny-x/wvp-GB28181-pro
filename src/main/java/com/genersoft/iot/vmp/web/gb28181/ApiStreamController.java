@@ -12,6 +12,7 @@ import com.genersoft.iot.vmp.service.IPlayService;
 import com.genersoft.iot.vmp.storager.IRedisCatchStorage;
 import com.genersoft.iot.vmp.storager.IVideoManagerStorager;
 import com.genersoft.iot.vmp.vmanager.gb28181.play.bean.PlayResult;
+import org.apache.commons.lang3.BooleanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,7 +95,7 @@ public class ApiStreamController {
             JSONObject result = new JSONObject();
             result.put("error","channel[ " + code + " ]未找到");
             resultDeferredResult.setResult(result);
-        }else if (deviceChannel.getStatus() == 0) {
+        }else if (BooleanUtils.isNotTrue(deviceChannel.getStatus())) {
             JSONObject result = new JSONObject();
             result.put("error","channel[ " + code + " ]offline");
             resultDeferredResult.setResult(result);
